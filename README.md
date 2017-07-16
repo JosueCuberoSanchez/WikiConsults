@@ -1,2 +1,2 @@
 # WikiConsults
-Java application for doing basic Wikipedia consults.
+Java application for doing basic Wikipedia queries.
