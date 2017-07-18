@@ -1,8 +1,11 @@
 package cr.ac.ucr.ecci.ci1310.core.dao.impl;
 
 import cr.ac.ucr.ecci.ci1310.core.dao.WikiDao;
+import cr.ac.ucr.ecci.ci1310.model.Page;
 
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -26,28 +29,59 @@ public class WikiDaoImpl<K,V> implements WikiDao<K,V> { //db accesses
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public V getDataWithId(K id) {
+        String title = null; //agregar mas si es necesario
+        String idd = null;
+        String date = null;
+        Page page = null;
         try{
             Statement stmt = this.conn.createStatement();
             ResultSet rs;
-            String sqlStatement = "SELECT page_id, page_title FROM page WHERE page_title LIKE ?";
+            String sqlStatement = "SELECT page_id, page_title, page_touched FROM page WHERE page_id = ?";
             PreparedStatement preparedStmt = conn.prepareStatement(sqlStatement);
-            preparedStmt.setObject(1,"%" + id + "%");
+            preparedStmt.setObject(1,id);
             rs = preparedStmt.executeQuery();
-            String name; //agregar mas si es necesario
-            while(rs.next()){
-                name = rs.getString("page_title");
-                System.out.println(name);
+            while(rs.next()) {
+                title = rs.getString("page_title");
+                idd = rs.getString("page_id");
+                date = rs.getString("page_touched");
+                page = new Page(title,idd,date);
+                page.printData();
             }
         }catch(SQLException e){
             e.printStackTrace();
         }
-        return null;
+        return (V)(page);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public V getDataWithName(K name) {
-        return null;
+    public <V> List<V> getDataWithName(K name) {
+        List<V> pages = new LinkedList<>();
+        Page page = null;
+        try{
+            Statement stmt = this.conn.createStatement();
+            ResultSet rs;
+            String sqlStatement = "SELECT page_id, page_title, page_touched FROM page WHERE page_title LIKE ?";
+            PreparedStatement preparedStmt = conn.prepareStatement(sqlStatement);
+            preparedStmt.setObject(1,"%" + name + "%");
+            rs = preparedStmt.executeQuery();
+            String title; //agregar mas si es necesario
+            String id;
+            String date;
+            while(rs.next()){
+                title = rs.getString("page_title");
+                id = rs.getString("page_id");
+                date = rs.getString("page_touched");
+                page = new Page(title,id,date);
+                page.printData();
+                pages.add((V)(page));
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return pages;
     }
 }

@@ -41,6 +41,13 @@
 
     <dependencies>
         <dependency>
+            <groupId>cachelib-1.0-SNAPSHOT</groupId><!-- 01 -->
+            <artifactId>cachelib</artifactId>
+            <scope>system</scope>
+            <version>1.0-SNAPSHOT</version>
+            <systemPath>${basedir}/lib/cachelib-1.0-SNAPSHOT.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.40</version>

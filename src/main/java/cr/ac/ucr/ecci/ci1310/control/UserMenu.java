@@ -7,32 +7,27 @@ import java.util.Scanner;
  */
 public class UserMenu<K,V> {
 
-    private String cacheId;
-    private String cacheName;
+    private Boolean typeOfQuery;
     private String query;
+    private Scanner scan;
 
-    public UserMenu(){}
+    public UserMenu(){
+        scan = new Scanner(System.in);
+    }
 
     public void displayUserMenu(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Input the desired cache id");
-        this.cacheId = scanner.next();
-        System.out.println("Input the desired cache name");
-        this.cacheName = scanner.next();
-        System.out.println("Input the desired SQL query");
-        this.query = scanner.next();
-    }
-
-    public String getCacheId() {
-        return cacheId;
-    }
-
-    public String getCacheName() {
-        return cacheName;
+        System.out.println("Do you want to query Wikipedia by name o by id?\nType true for id, or false for name");
+        this.typeOfQuery = this.scan.nextBoolean();
+        System.out.println("Input the query data");
+        this.query = scan.next();
     }
 
     public String getQuery() {
-        return query;
+        return this.query;
+    }
+
+    public Boolean getTypeOfQuery(){
+        return this.typeOfQuery;
     }
 
 
